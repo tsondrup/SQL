@@ -1,1 +1,10 @@
+#1. Question: How many crime movies/TV shows did I watch in 2021?
+
+SELECT count(*)
+FROM dbo.Media
+WHERE Genre = 'Crime'
+
+#1.Answer: 9
+
+
 
