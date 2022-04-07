@@ -12,7 +12,7 @@ Loved VARCHAR)
 
 #2. Adding data to the table:
 
-INSERT INTO Films VALUES
+INSERT INTO Media VALUES
 ('First Cow', 3.8, 2019, 'Drama', 'No'),
 ('Alone', 3.1, 2020, 'Thriller', 'No'),
 ('The Outpost', 3.3, 2019, 'Action', 'No'),
