@@ -1,6 +1,6 @@
 #In this SQL code, I'm creating a new table and adding my Letterboxd view hsitory to it.
 
-#Creating the table:
+#1. Creating the table:
 
 CREATE TABLE Films
 (ID INTEGER PRIMARY KEY IDENTITY (1,1),
@@ -10,7 +10,7 @@ ReleaseYear INTEGER,
 Genre TEXT,
 Loved TEXT)
 
-#Adding data to the table:
+#2. Adding data to the table:
 
 INSERT INTO Films VALUES
 ('First Cow', 3.8, 2019, 'Drama', 'No'),
