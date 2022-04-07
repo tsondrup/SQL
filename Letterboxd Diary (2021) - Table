@@ -2,13 +2,13 @@
 
 #1. Creating the table:
 
-CREATE TABLE Films
+CREATE TABLE Media
 (ID INTEGER PRIMARY KEY IDENTITY (1,1),
-Title TEXT,
+Title VARCHAR,
 AverageRating DECIMAL(2,1),
 ReleaseYear INTEGER,
-Genre TEXT,
-Loved TEXT)
+Genre VARCHAR,
+Loved VARCHAR)
 
 #2. Adding data to the table:
 
