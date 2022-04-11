@@ -1,4 +1,4 @@
-#1. Question: How many crime movies/TV shows did I watch in 2021?
+#1.Question: How many crime movies/TV shows did I watch in 2021?
 
 SELECT count(*)
 FROM dbo.Media
@@ -6,5 +6,19 @@ WHERE Genre = 'Crime'
 
 #1.Answer: 9
 
+#2.Question: What were those movies/TV shows (in alphabetical order)?
 
+SELECT title
+FROM dbo.Media
+WHERE Genre = 'Crime'
+ORDER BY title asc
 
+#3.Question: Who was the star for the movie "Never Look Away"?
+
+SELECT Star
+FROM Cast 
+LEFT JOIN Media
+ON Cast.Title = Media.Title
+WHERE Cast.title = 'Never Look Away'
+
+#3.Answer: Tom Schilling
