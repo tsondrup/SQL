@@ -1,0 +1,23 @@
+/* Create Subscriptions Table */
+
+CREATE TABLE subscriptions (
+    subscription_id VARCHAR PRIMARY KEY,
+    account_id VARCHAR,
+    subscription_start_date DATE,
+    subscription_end_date DATE,
+    trial_start_date DATE,
+    trial_end_date DATE,
+    revenue DECIMAL (6,2)
+);
+
+/* Create Visits Table */
+
+CREATE TABLE visits (
+    visit_id VARCHAR PRIMARY KEY,
+    account_id VARCHAR,
+    day DATE,
+    region VARCHAR,
+    language VARCHAR,
+    channel VARCHAR,
+    landing_page VARCHAR
+);
