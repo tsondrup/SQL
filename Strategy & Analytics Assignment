@@ -22,7 +22,7 @@ CREATE TABLE visits (
     landing_page VARCHAR
 )
 
-/* How much revenue did each region generate within the time frame covered by
+/* 1. How much revenue did each region generate within the time frame covered by
 the data sets? */
 
 SELECT visits.region AS 'Region', SUM(subscriptions.revenue) AS 'Total Revenue'
@@ -31,7 +31,7 @@ INNER JOIN subscriptions
 ON visits.account_id=subscriptions.account_id
 GROUP BY region
 
-/* Which channel had the highest revenue per visit? What was its revenue per visit? */
+/* 2. Which channel had the highest revenue per visit? What was its revenue per visit? */
 
 SELECT visits.channel AS 'Channel', SUM(subscriptions.revenue)*COUNT(visits.visit_id) AS 'Revenue Per Visit'
 FROM visits
@@ -41,7 +41,7 @@ GROUP BY channel
 ORDER BY revenue DESC
 LIMIT 1
 
-/* Which landing page had the highest overall conversion rate (% of visitors that go
+/* 3. Which landing page had the highest overall conversion rate (% of visitors that go
 on to become paying subscribers)? What was its conversion rate? */
 
 SELECT visits.landing_page AS 'Landing Page', COUNT(visits.visit_id), COUNT(subscriptions.subscription_id)
@@ -49,6 +49,9 @@ FROM visits
 INNER JOIN subscriptions
 ON visits.account_id=subscriptions.account_id
 GROUP BY landing_page
+
+/* 7. Which region had the highest trial conversion rate (% of trials that start a
+subscription)? What was its trial conversion rate? */
 
 SELECT COUNT(DISTINCT visit_id) AS Visits FROM visits
 SELECT COUNT(DISTINCT subscription_id) AS Subscriptions FROM subscriptions
