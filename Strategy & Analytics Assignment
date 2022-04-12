@@ -8,7 +8,7 @@ CREATE TABLE subscriptions (
     trial_start_date DATE,
     trial_end_date DATE,
     revenue DECIMAL (6,2)
-);
+)
 
 /* Create Visits Table */
 
@@ -20,4 +20,4 @@ CREATE TABLE visits (
     language VARCHAR,
     channel VARCHAR,
     landing_page VARCHAR
-);
+)
