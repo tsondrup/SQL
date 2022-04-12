@@ -132,14 +132,16 @@ QUESTION 5:
             
                 CODE:
                 
-                    SELECT region AS Region, COUNT(DISTINCT CASE WHEN trial_start_date LIKE '%/%' THEN subscription_id END) * 1.0 / COUNT(DISTINCT visit_id) * 100.0 AS Trial_Start_Rate
+                    SELECT region AS Region, COUNT(DISTINCT subscription_id) * 1.0 / COUNT(DISTINCT visit_id) * 100.0 AS Direct_Subscription_Rate
                     FROM visits
                     LEFT JOIN subscriptions
                     ON visits.account_id=subscriptions.account_id
+                    WHERE trial_start_date = '' OR trial_start_date IS NULL
                     GROUP BY region
-                    ORDER BY Trial_Start_Rate DESC
+                    ORDER BY Direct_Subscription_Rate DESC
+                    LIMIT 1
+                
                     
-
 QUESTION 6:
 
     Which region had the highest trial start rate (% of visitors that start a trial,
@@ -152,14 +154,12 @@ QUESTION 6:
             
                 CODE:
                 
-                    SELECT region AS Region, COUNT(trial_start_date) * 1.0 / COUNT(DISTINCT visit_id) * 100.0 AS Trial_Start_Rate
+                    SELECT region AS Region, COUNT(DISTINCT CASE WHEN trial_start_date LIKE '%/%' THEN subscription_id END) * 1.0 / COUNT(DISTINCT visit_id) * 100.0 AS Trial_Start_Rate
                     FROM visits
                     LEFT JOIN subscriptions
                     ON visits.account_id=subscriptions.account_id
-                    WHERE trial_start_date LIKE '%/%' OR trial_start_date IS NOT NULL
                     GROUP BY region
                     ORDER BY Trial_Start_Rate DESC
-                    LIMIT 1
 
 
 QUESTION 7:
