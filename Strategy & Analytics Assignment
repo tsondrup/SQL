@@ -30,3 +30,22 @@ FROM visits
 INNER JOIN subscriptions
 ON visits.account_id=subscriptions.account_id
 GROUP BY region
+
+/* Which channel had the highest revenue per visit? What was its revenue per visit? */
+
+SELECT visits.channel AS 'Channel', SUM(subscriptions.revenue)*COUNT(visits.visit_id) AS 'Revenue Per Visit'
+FROM visits
+INNER JOIN subscriptions
+ON visits.account_id=subscriptions.account_id
+GROUP BY channel
+ORDER BY revenue DESC
+LIMIT 1
+
+/* Which landing page had the highest overall conversion rate (% of visitors that go
+on to become paying subscribers)? What was its conversion rate? */
+
+SELECT visits.landing_page AS 'Landing Page', COUNT(visits.visit_id), COUNT(subscriptions.subscription_id)
+FROM visits
+INNER JOIN subscriptions
+ON visits.account_id=subscriptions.account_id
+GROUP BY landing_page
