@@ -154,14 +154,14 @@ QUESTION 6:
             
                 CODE:
                 
-                SELECT region AS Region, COUNT(trial_start_date) * 1.0 / COUNT(DISTINCT visit_id) * 100.0 AS Trial_Start_Rate
-                FROM visits
-                LEFT JOIN subscriptions
-                ON visits.account_id=subscriptions.account_id
-                WHERE trial_start_date LIKE '%/%' OR trial_start_date IS NOT NULL
-                GROUP BY region
-                ORDER BY Trial_Start_Rate DESC
-                LIMIT 1
+                    SELECT region AS Region, COUNT(trial_start_date) * 1.0 / COUNT(DISTINCT visit_id) * 100.0 AS Trial_Start_Rate
+                    FROM visits
+                    LEFT JOIN subscriptions
+                    ON visits.account_id=subscriptions.account_id
+                    WHERE trial_start_date LIKE '%/%' OR trial_start_date IS NOT NULL
+                    GROUP BY region
+                    ORDER BY Trial_Start_Rate DESC
+                    LIMIT 1
 
 
 QUESTION 7:
