@@ -58,7 +58,7 @@ FROM visits
 INNER JOIN subscriptions
 ON visits.account_id=subscriptions.account_id
 
-SELECT CAST(CAST((COUNT(DISTINCT subscription_id))AS DECIMAL(7,2)) / CAST((COUNT(DISTINCT visit_id))AS DECIMAL(7,2))) AS DECIMAL(7,2) AS 'Conversion Rate'
+SELECT COUNT(DISTINCT visit_id)
 FROM visits
-INNER JOIN subscriptions
+FULL OUTER JOIN subscriptions
 ON visits.account_id=subscriptions.account_id
