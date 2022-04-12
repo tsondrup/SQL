@@ -113,7 +113,7 @@ QUESTION 4:
             
                 CODE:
                 
-                    SELECT region AS 'Region', COUNT(DISTINCT subscription_id) * 1.0 / COUNT(DISTINCT visit_id) * 100.0 AS Conversion_Rate, landing_page AS LandingPage
+                    SELECT region AS Region, COUNT(DISTINCT subscription_id) * 1.0 / COUNT(DISTINCT visit_id) * 100.0 AS Conversion_Rate, landing_page AS LandingPage
                     FROM visits
                     LEFT JOIN subscriptions
                     ON visits.account_id=subscriptions.account_id
