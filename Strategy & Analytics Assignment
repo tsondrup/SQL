@@ -21,3 +21,12 @@ CREATE TABLE visits (
     channel VARCHAR,
     landing_page VARCHAR
 )
+
+/* How much revenue did each region generate within the time frame covered by
+the data sets? */
+
+SELECT visits.region AS 'Region', SUM(subscriptions.revenue) AS 'Total Revenue'
+FROM visits
+INNER JOIN subscriptions
+ON visits.account_id=subscriptions.account_id
+GROUP BY region
