@@ -7,7 +7,7 @@ CREATE TABLE subscriptions (
     subscription_end_date DATE,
     trial_start_date DATE,
     trial_end_date DATE,
-    revenue DECIMAL (6,2)
+    revenue DECIMAL (7,2)
 )
 
 /* Create Visits Table */
