@@ -128,7 +128,7 @@ QUESTION 5:
     
         ANSWER:
             
-            ____
+            Asia, with a direct subscription rate of 12.1%.
             
                 CODE:
                 
@@ -136,9 +136,10 @@ QUESTION 5:
                     FROM visits
                     LEFT JOIN subscriptions
                     ON visits.account_id=subscriptions.account_id
-                    WHERE trial_start_date = ''
+                    WHERE trial_start_date = '' OR trial_start_date IS NULL
                     GROUP BY region
                     ORDER BY Direct_Subscription_Rate DESC
+                    LIMIT 1
                     
 
 QUESTION 6:
