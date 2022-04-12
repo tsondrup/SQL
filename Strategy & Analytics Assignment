@@ -23,22 +23,36 @@ CREATE TABLE visits (
 )
 
 /* 1. How much revenue did each region generate within the time frame covered by
-the data sets? */
+the data sets?
 
-SELECT visits.region AS 'Region', SUM(subscriptions.revenue) AS 'Total Revenue'
+ANSWER:
+
+Latin America: $2,373,438
+Asia: $1,977,364
+US/Canada: $1,583,260
+Europe, Middle East, & Africa (Non-English): $1,317,909
+Other English-Speaking Countries: $1,135,563 */
+
+CODE:
+
+SELECT region AS Region, SUM(revenue) AS Total_Revenue
 FROM visits
-INNER JOIN subscriptions
+LEFT JOIN subscriptions
 ON visits.account_id=subscriptions.account_id
 GROUP BY region
 
 /* 2. Which channel had the highest revenue per visit? What was its revenue per visit? */
 
-SELECT visits.channel AS 'Channel', SUM(subscriptions.revenue)*COUNT(visits.visit_id) AS 'Revenue Per Visit'
+ANSWER:
+
+CODE:
+
+SELECT channel AS Channel, SUM(revenue)*COUNT(visit_id) AS Revenue_Per_Visit
 FROM visits
-INNER JOIN subscriptions
+LEFT JOIN subscriptions
 ON visits.account_id=subscriptions.account_id
 GROUP BY channel
-ORDER BY revenue DESC
+ORDER BY Revenue_Per_Visit DESC
 LIMIT 1
 
 /* 3. Which landing page had the highest overall conversion rate (% of visitors that go
@@ -51,10 +65,9 @@ ON visits.account_id=subscriptions.account_id
 GROUP BY landing_page
 
 /* 7. Which region had the highest trial conversion rate (% of trials that start a
-subscription)? What was its trial conversion rate? */
+subscription)? What was its trial conversion rate?
 
-SELECT COUNT(DISTINCT visit_id) AS Visits FROM visits
-SELECT COUNT(DISTINCT subscription_id) AS Subscriptions FROM subscriptions
+ANSWER: "Other English-Speaking Countries", 30.9% */
 
 SELECT region AS 'Region', COUNT(DISTINCT subscription_id) * 1.0 / COUNT(DISTINCT visit_id) * 100.0 AS Conversion_Rate
 FROM visits
