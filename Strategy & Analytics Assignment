@@ -53,7 +53,7 @@ GROUP BY landing_page
 SELECT COUNT(DISTINCT visit_id) AS Visits FROM visits
 SELECT COUNT(DISTINCT subscription_id) AS Subscriptions FROM subscriptions
 
-SELECT (COUNT(DISTINCT subscriptions.subscription_id) AS 'Subscriptions') / (COUNT(DISTINCT visits.visit_id) AS 'Visits')
+SELECT (COUNT(DISTINCT subscriptions.subscription_id)) / (COUNT(DISTINCT visits.visit_id)) AS 'Conversion Rate'
 FROM visits
 INNER JOIN subscriptions
 ON visits.account_id=subscriptions.account_id
