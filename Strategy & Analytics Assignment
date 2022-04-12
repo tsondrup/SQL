@@ -56,7 +56,10 @@ subscription)? What was its trial conversion rate? */
 SELECT COUNT(DISTINCT visit_id) AS Visits FROM visits
 SELECT COUNT(DISTINCT subscription_id) AS Subscriptions FROM subscriptions
 
-SELECT COUNT(DISTINCT subscription_id) * 1.0 / COUNT(DISTINCT visit_id) * 100.0 AS 'Conversion Rate'
+SELECT region AS 'Region', COUNT(DISTINCT subscription_id) * 1.0 / COUNT(DISTINCT visit_id) * 100.0 AS Conversion_Rate
 FROM visits
 LEFT JOIN subscriptions
 ON visits.account_id=subscriptions.account_id
+GROUP BY region
+ORDER BY Conversion_Rate DESC
+LIMIT 1
