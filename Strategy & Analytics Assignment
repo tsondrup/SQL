@@ -154,7 +154,7 @@ QUESTION 6:
             
                 CODE:
                 
-                    SELECT region AS Region, COUNT(DISTINCT CASE WHEN trial_start_date LIKE '%/%' THEN subscription_id END) * 1.0 / COUNT(DISTINCT visit_id) * 100.0 AS Trial_Start_Rate
+                    SELECT region AS Region, COUNT(CASE WHEN trial_start_date LIKE '%/%' THEN subscription_id END) * 1.0 / COUNT(DISTINCT visit_id) * 100.0 AS Trial_Start_Rate
                     FROM visits
                     LEFT JOIN subscriptions
                     ON visits.account_id=subscriptions.account_id
