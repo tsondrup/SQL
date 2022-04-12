@@ -47,6 +47,7 @@ QUESTION 1:
                     LEFT JOIN subscriptions
                     ON visits.account_id=subscriptions.account_id
                     GROUP BY region
+                    ORDER BY Total_Revenue DESC
 
 
 QUESTION 2:
@@ -55,7 +56,7 @@ QUESTION 2:
 
         ANSWER:
 
-            Display, at an average of $308.93/visit
+            Display, with an average of $308.93 in revenue per visit.
 
                 CODE:
 
@@ -75,15 +76,17 @@ QUESTION 3:
     
         ANSWER:
         
-            ___
+            Other English-Speaking Countries, with an overall conversion rate of 30.9%.
             
                 CODE:
-
-                    SELECT visits.landing_page AS 'Landing Page', COUNT(visits.visit_id), COUNT(subscriptions.subscription_id)
+                
+                    SELECT region AS 'Region', COUNT(DISTINCT subscription_id) * 1.0 / COUNT(DISTINCT visit_id) * 100.0 AS Conversion_Rate
                     FROM visits
-                    INNER JOIN subscriptions
+                    LEFT JOIN subscriptions
                     ON visits.account_id=subscriptions.account_id
-                    GROUP BY landing_page
+                    GROUP BY region
+                    ORDER BY Conversion_Rate DESC
+                    LIMIT 1
                     
 
 QUESTION 4:
@@ -137,17 +140,11 @@ QUESTION 7:
 
         ANSWER:
         
-            Other English-Speaking Countries, with a trail conversion rate of 30.9%
+            ____
 
                 CODE:
 
-                    SELECT region AS 'Region', COUNT(DISTINCT subscription_id) * 1.0 / COUNT(DISTINCT visit_id) * 100.0 AS Conversion_Rate
-                    FROM visits
-                    LEFT JOIN subscriptions
-                    ON visits.account_id=subscriptions.account_id
-                    GROUP BY region
-                    ORDER BY Conversion_Rate DESC
-                    LIMIT 1
+                    ____
 
 
 QUESTION 8:
