@@ -170,11 +170,17 @@ QUESTION 7:
 
         ANSWER:
         
-            ____
+            Latin America, with a trial conversion rate of 18.1%.
 
                 CODE:
 
-                    ____
+                    SELECT region AS Region, COUNT(CASE WHEN trial_start_date IS NOT NULL AND subscription_start_date <> '' THEN subscription_id END) * 1.0 / COUNT(DISTINCT visit_id) * 100.0 AS Trial_Start_Rate
+                    FROM visits
+                    LEFT JOIN subscriptions
+                    ON visits.account_id=subscriptions.account_id
+                    GROUP BY region
+                    ORDER BY Trial_Start_Rate DESC
+                    LIMIT 1
 
 
 QUESTION 8:
