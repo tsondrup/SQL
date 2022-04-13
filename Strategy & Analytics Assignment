@@ -1,0 +1,205 @@
+-------------------------------------------------- CREATE TABLE CODE --------------------------------------------------
+
+/* Create Subscriptions Table */
+
+CREATE TABLE subscriptions (
+    subscription_id VARCHAR PRIMARY KEY,
+    account_id VARCHAR,
+    subscription_start_date DATE,
+    subscription_end_date DATE,
+    trial_start_date DATE,
+    trial_end_date DATE,
+    revenue DECIMAL (7,2)
+)
+
+
+/* Create Visits Table */
+
+CREATE TABLE visits (
+    visit_id VARCHAR PRIMARY KEY,
+    account_id VARCHAR,
+    day DATE,
+    region VARCHAR,
+    language VARCHAR,
+    channel VARCHAR,
+    landing_page VARCHAR
+)
+
+-------------------------------------------------- QUESTIONS, ANSWERS, CODE --------------------------------------------------
+
+QUESTION 1:
+
+    How much revenue did each region generate within the time frame covered by
+    the data sets?
+
+        ANSWER:
+
+            Latin America: $2,373,438
+            Asia: $1,977,364
+            US/Canada: $1,583,260
+            Europe, Middle East, & Africa (Non-English): $1,317,909
+            Other English-Speaking Countries: $1,135,563
+
+                CODE:
+
+                    SELECT region AS Region, SUM(revenue) AS Total_Revenue
+                    FROM visits
+                    LEFT JOIN subscriptions
+                    ON visits.account_id=subscriptions.account_id
+                    GROUP BY region
+                    ORDER BY Total_Revenue DESC
+
+
+QUESTION 2:
+
+    Which channel had the highest revenue per visit? What was its revenue per visit?
+
+        ANSWER:
+
+            Display, with an average of $308.93 in revenue per visit.
+
+                CODE:
+
+                    SELECT channel AS Channel, SUM(revenue) / COUNT(visit_id) AS Average_Revenue_Per_Visit
+                    FROM visits
+                    LEFT JOIN subscriptions
+                    ON visits.account_id=subscriptions.account_id
+                    GROUP BY channel
+                    ORDER BY Average_Revenue_Per_Visit DESC
+                    LIMIT 1
+
+
+QUESTION 3:
+
+    Which landing page had the highest overall conversion rate (% of visitors that go
+    on to become paying subscribers)? What was its conversion rate?
+    
+        ANSWER:
+        
+            Other English-Speaking Countries, with an overall conversion rate of 30.9%.
+            
+                CODE:
+                
+                    SELECT region AS 'Region', COUNT(DISTINCT subscription_id) * 1.0 / COUNT(DISTINCT visit_id) * 100 AS Conversion_Rate
+                    FROM visits
+                    LEFT JOIN subscriptions
+                    ON visits.account_id=subscriptions.account_id
+                    GROUP BY region
+                    ORDER BY Conversion_Rate DESC
+                    LIMIT 1
+                    
+
+QUESTION 4:
+
+    Did any regions have a different top converting landing page (as compared to the
+    previous answer)? If so, please list them along with their top landing page and its
+    conversion rate.
+    
+        ANSWER:
+        
+            Yes:
+            
+            Region: Europe, Middle East, & Africa (Non-English)
+            Landing Page: G
+            Conversion Rate: 30.1%
+
+            Region: Latin America
+            Landing Page: G
+            Conversion Rate: 28.1%
+            
+            Region: Asia
+            Landing Page: D
+            Conversion Rate: 27.3%
+            
+                CODE:
+                
+                    SELECT region AS Region, COUNT(DISTINCT subscription_id) * 1.0 / COUNT(DISTINCT visit_id) * 100 AS Conversion_Rate, landing_page AS LandingPage
+                    FROM visits
+                    LEFT JOIN subscriptions
+                    ON visits.account_id=subscriptions.account_id
+                    GROUP BY region
+                    ORDER BY Conversion_Rate DESC
+                    
+
+QUESTION 5:
+
+    Which region had the highest direct subscription rate (% of visitors that start a
+    subscription directly without doing a trial)? What was its direct subscription rate?
+    
+        ANSWER:
+            
+            Asia, with a direct subscription rate of 12.1%.
+            
+                CODE:
+                
+                    SELECT region AS Region, COUNT(DISTINCT subscription_id) * 1.0 / COUNT(DISTINCT visit_id) * 100 AS Direct_Subscription_Rate
+                    FROM visits
+                    LEFT JOIN subscriptions
+                    ON visits.account_id=subscriptions.account_id
+                    WHERE trial_start_date = '' OR trial_start_date IS NULL
+                    GROUP BY region
+                    ORDER BY Direct_Subscription_Rate DESC
+                    LIMIT 1
+                
+                    
+QUESTION 6:
+
+    Which region had the highest trial start rate (% of visitors that start a trial,
+    regardless of whether those users ultimately cancel or become paying
+    subscribers)? What was its trial start rate?
+    
+        ANSWER:
+            
+            Other English-Speaking Countries, with a trial start rate of 30.9%.
+            
+                CODE:
+                
+                    SELECT region AS Region, COUNT(CASE WHEN trial_start_date IS NOT NULL THEN subscription_id END) * 1.0 / COUNT(DISTINCT visit_id) * 100 AS Trial_Start_Rate
+                    FROM visits
+                    LEFT JOIN subscriptions
+                    ON visits.account_id=subscriptions.account_id
+                    GROUP BY region
+                    ORDER BY Trial_Start_Rate DESC
+                    LIMIT 1
+
+
+QUESTION 7:
+
+    Which region had the highest trial conversion rate (% of trials that start a
+    subscription)? What was its trial conversion rate?
+
+        ANSWER:
+        
+            Latin America, with a trial conversion rate of 18.1%.
+
+                CODE:
+
+                    SELECT region AS Region, COUNT(CASE WHEN trial_start_date IS NOT NULL AND subscription_start_date <> '' THEN subscription_id END) * 1.0 / COUNT(DISTINCT visit_id) * 100.0 AS Trial_Start_Rate
+                    FROM visits
+                    LEFT JOIN subscriptions
+                    ON visits.account_id=subscriptions.account_id
+                    GROUP BY region
+                    ORDER BY Trial_Start_Rate DESC
+                    LIMIT 1
+
+
+QUESTION 8:
+
+    Suppose that the company has a goal to increase revenue from the US/Canada
+    region by 20% over the next year. Provide at least 4 potential strategies we could
+    employ to help us reach our goal (no supporting data analysis required—just
+    ideas).
+    
+        PREFACE:
+        
+            A 20% or greater increase in reveneue from the US/Canada region would constitute a minimum of $316,652 in addition to the revenue of $1,583,260 within the time frame covered by the data sets, amounting to a goal of a grand total of $1,899,912 over next year.
+
+                ANSWER:
+
+                    1. Invest more resources into the display channel to achieve more revenue per visit.
+                    
+                    2. Invest more resources into the “Other English-Speaking Countries” landing page to achieve a higher overall conversion rate.
+                    
+                    3. Invest more resources into the different top converting landing pages on a regional basis.
+                    
+                    4. Invest more resources into trials in Latin America to achieve a higher trial conversion rate.
